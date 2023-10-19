@@ -8,7 +8,7 @@ namespace CapaEntidad
 {
     public class Marca
     {
-        public int IdCMarca { get; set; }
+        public int IdMarca { get; set; }
         public string Descripción { get; set; }
         public bool Activo { get; set; }
     }
