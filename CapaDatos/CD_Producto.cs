@@ -50,7 +50,7 @@ namespace CapaDatos
                             {
                                 IdProducto = Convert.ToInt32(dr["IdProducto"]),
                                 Nombre = dr["Nombre"].ToString(),
-                                Descripción = dr["Descripcion"].ToString(),
+                                Descripción = dr["Descripción"].ToString(),
                                 oMarca = new Marca () { IdMarca = Convert.ToInt32(dr["IdMarca"]), Descripción = dr["DesMarca"].ToString() },
                                 oCategoria = new Categoria () { IdCategoria = Convert.ToInt32(dr["IdCategoria"]), Descripción = dr["DesCategoria"].ToString() },
                                 Precio = Convert.ToDecimal(dr["Precio"], new CultureInfo("es-PE")),
@@ -188,7 +188,7 @@ namespace CapaDatos
 
                     string query = "update producto set RutaImagen = @rutaimagen, NombreImagen = @nombreimagen where IdProducto = @idproducto";
 
-                    SqlCommand cmd = new SqlCommand("sp_RegistrarProducto", oconexion);
+                    SqlCommand cmd = new SqlCommand(query, oconexion);
                     cmd.Parameters.AddWithValue("@rutaimagen", obj.RutaImagen);
                     cmd.Parameters.AddWithValue("@nombreimagen", obj.NombreImagen);
                     cmd.Parameters.AddWithValue("@idproducto", obj.IdProducto);
@@ -229,29 +229,24 @@ namespace CapaDatos
 
         public bool Eliminar(int id, out string Mensaje)
         {
-
             bool resultado = false;
             Mensaje = string.Empty;
-
             try
             {
                 using (SqlConnection oconexion = new SqlConnection(Conexion.cn))
                 {
-                    oconexion.Open();
-                    SqlCommand cmd = new SqlCommand("sp_EliminarProducto", oconexion);
+                    SqlCommand cmd = new SqlCommand("sp_EliminarrProducto", oconexion);
                     cmd.Parameters.AddWithValue("IdProducto", id);
                     cmd.Parameters.Add("Resultado", SqlDbType.Bit).Direction = ParameterDirection.Output;
                     cmd.Parameters.Add("Mensaje", SqlDbType.VarChar, 500).Direction = ParameterDirection.Output;
                     cmd.CommandType = CommandType.StoredProcedure;
 
-
+                    oconexion.Open();
 
                     cmd.ExecuteNonQuery();
 
                     resultado = Convert.ToBoolean(cmd.Parameters["Resultado"].Value);
                     Mensaje = cmd.Parameters["Mensaje"].Value.ToString();
-
-                    oconexion.Close();
                 }
 
             }
@@ -261,7 +256,6 @@ namespace CapaDatos
                 Mensaje = ex.Message;
             }
             return resultado;
-
         }
 
 

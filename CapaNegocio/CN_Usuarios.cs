@@ -13,22 +13,24 @@ namespace CapaNegocio
         private CD_Usuarios objCapadato = new CD_Usuarios();
         public List<Usuario> Listar()
         {
-            return objCapadato.Listar();    
+            return objCapadato.Listar();
         }
 
         public int Registrar(Usuario obj, out string Mensaje)
         {
             Mensaje = string.Empty;
 
-            if (string.IsNullOrEmpty(obj.Nombres)  || string.IsNullOrWhiteSpace(obj.Nombres))
+            if (string.IsNullOrEmpty(obj.Nombres) || string.IsNullOrWhiteSpace(obj.Nombres))
             {
                 Mensaje = "El nombre del usuario no puede ser vacio";
 
-            } else if (string.IsNullOrEmpty(obj.Apellidos) || string.IsNullOrWhiteSpace(obj.Apellidos))
+            }
+            else if (string.IsNullOrEmpty(obj.Apellidos) || string.IsNullOrWhiteSpace(obj.Apellidos))
             {
                 Mensaje = "El apellido del usuario no puede ser vacio";
 
-            } else if (string.IsNullOrEmpty(obj.Correo) || string.IsNullOrWhiteSpace(obj.Correo))
+            }
+            else if (string.IsNullOrEmpty(obj.Correo) || string.IsNullOrWhiteSpace(obj.Correo))
             {
                 Mensaje = "El correo del usuario no puede ser vacio";
 
@@ -45,15 +47,15 @@ namespace CapaNegocio
                     "<h4>Ahora haces parte de la familia TIENDABOD</h4>" +
                     "<P>Su contraseña para acceder es: </P>" + clave;
 
-               
+
 
 
                 bool respuesta = CN_Recursos.EnviarCorreo(obj.Correo, asunto, mensaje_correo);
 
-                if(respuesta = true)
+                if (respuesta == true)
                 {
 
-                    obj.Clave = CN_Recursos.EncriptarContraseña(clave);
+                    obj.Clave = CN_Recursos.ConvertirRIPEMD160(clave);
 
                     return objCapadato.Registrar(obj, out Mensaje);
 
@@ -64,11 +66,11 @@ namespace CapaNegocio
                     return 0;
                 }
 
-                
+
             }
             else
             {
-                return  0;
+                return 0;
             }
         }
 
@@ -106,8 +108,64 @@ namespace CapaNegocio
 
         public bool Eliminar(int id, out string Mensaje)
         {
-            return objCapadato.Eliminar(id, out Mensaje);       
+            return objCapadato.Eliminar(id, out Mensaje);
         }
+
+
+
+
+
+        public bool CambiarClave(int idusuario, string nuevaclave, out string Mensaje)
+        {
+
+            return objCapadato.CambiarClave(idusuario, nuevaclave, out Mensaje);
+        }
+
+
+
+
+
+        public bool ReestablecerClave(int idusuario, string correo, out string Mensaje)
+        {
+
+            Mensaje = string.Empty;
+            string nuevaclave = CN_Recursos.GenerarClave();
+            bool resultado = objCapadato.ReestablecerClave(idusuario, CN_Recursos.ConvertirRIPEMD160(nuevaclave), out Mensaje);
+
+            if (resultado)
+            {
+
+                string asunto = "Contraseña Reestablecida";
+                string mensaje_correo = "<h3>Su cuenta fue reestablecida correctamente</h3></br><p>Su contraseña para acceder ahora es: !clave!</p>";
+                mensaje_correo = mensaje_correo.Replace("!clave!", nuevaclave);
+
+
+                bool respuesta = CN_Recursos.EnviarCorreo(correo, asunto, mensaje_correo);
+
+                if (respuesta)
+                {
+
+                    return true;
+                }
+                else
+                {
+                    Mensaje = "No se pudo enviar el correo";
+                    return false;
+                }
+
+            }
+            else
+            {
+                Mensaje = "No se pudo reestablecer la contraseña";
+
+                return false;
+            }
+
+
+
+
+        }
+
     }
 
 }

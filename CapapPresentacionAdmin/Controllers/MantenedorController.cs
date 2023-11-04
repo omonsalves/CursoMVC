@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace CapapPresentacionAdmin.Controllers
 {
+    [Authorize]
     public class MantenedorController : Controller
     {
         // GET: Mantenedor
@@ -264,16 +265,15 @@ namespace CapapPresentacionAdmin.Controllers
 
 
 
+        [HttpPost]
         public JsonResult EliminarProducto(int id)
         {
-
             bool respuesta = false;
             string mensaje = string.Empty;
 
             respuesta = new CN_Producto().Eliminar(id, out mensaje);
 
             return Json(new { resultado = respuesta, mensaje = mensaje }, JsonRequestBehavior.AllowGet);
-
         }
 
 

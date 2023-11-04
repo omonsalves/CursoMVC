@@ -50,9 +50,7 @@
             </div>
             <div class="modal-body">
 
-
-
-                <input id="txtid" type="text" value="0" />
+                <input id="txtid" type="hidden" value="0" />
 
 
                 <div class="row g-1">
@@ -143,7 +141,7 @@
                 ],
 
                 "language": {
-                    "url": "https:////cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json"
+                    "url": "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
                 }
             });
 
@@ -262,13 +260,13 @@
 
                         }
                     }
-                    //EDITAR CATEGORIA
+                    //EDITAR MARCA
                     else {
 
                         if (data.reultado = true) {
-                            Marca.IdMarca = data.reultado;
+                            
                             tabladata.row(filaSeleccionada).data(Marca).draw(false);
-                            //filaSeleccionada = null;
+                            filaSeleccionada = null;
                             $("#FormModal").modal("hide");
                         } else {
                             $("#mensajeError").text(data.mensaje);

@@ -21,35 +21,24 @@ namespace CapaNegocio
             return clave;
         }
 
-        //encriptacion DE TEXTO en SHA256
-        public static string EncriptarContraseña(string password)
+
+        public static string ConvertirRIPEMD160(string input)
         {
-          
-            byte[] salt = new byte[16];
-            using (var rng = new RNGCryptoServiceProvider())
+            using (RIPEMD160 ripeMd160 = RIPEMD160.Create())
             {
-                rng.GetBytes(salt);
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = ripeMd160.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
             }
-            
-            var kdf = new Rfc2898DeriveBytes(password, salt, 10000);
-            
-            byte[] key = kdf.GetBytes(32);
-            
-            byte[] iv = new byte[16];
-            using (var rng = new RNGCryptoServiceProvider())
-            {
-                rng.GetBytes(iv);
-            }
-            
-            var cipher = new AesManaged();
-            cipher.Key = key;
-            cipher.IV = iv;
-            
-            byte[] encryptedPassword = cipher.CreateEncryptor().TransformFinalBlock(Encoding.UTF8.GetBytes(password), 0, password.Length);
-            
-            return Convert.ToBase64String(encryptedPassword);
         }
 
+       
        
 
 
