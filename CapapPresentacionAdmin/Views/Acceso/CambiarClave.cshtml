@@ -10,7 +10,7 @@
     <title>CambiarClave</title>
     <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
-<body style="background-image: url('https://i.ibb.co/kh0wKdy/Blue-Illustration-Online-Shopping-Facebook-Cover-4.png' ">
+<body style="background-image: url('https://i.ibb.co/HgFPL02/Portada-de-Facebook-Corporativa-Descuentos-Din-mica-Juvenil-Gradiente-Morado-y-Azul-2.png' ">
     <div id="layoutAuthentication">
         <div id="layoutAuthentication_content">
             <br />
@@ -23,7 +23,7 @@
                                 <div class="card-header"><h3 class="text-center font-weight-light my-4">Cambiar Contraseña</h3></div>
                                 <div class="card-body">
                                     <form action="@Url.Action("CambiarClave","Acceso")" method="post">
-                                        <input class="form-control" type="text" value="@TempData["IdUsuario"]" name="idusuario" />
+                                        <input class="form-control" type="hidden" value="@TempData["IdUsuario"]" name="idusuario" />
 
                                         <div class="row mb-3">
                                             <div class="col-md-12">

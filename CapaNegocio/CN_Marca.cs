@@ -2,6 +2,8 @@
 using CapaEntidad;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -72,8 +74,11 @@ namespace CapaNegocio
 
 
 
+        public List<Marca> ListarMarcaporCategoria(int idcategoria)
+        {
 
-
+            return objCapadato.ListarMarcaporCategoria(idcategoria);
+        }
 
 
 
