@@ -10,6 +10,9 @@ using System.Web.Services.Description;
 
 namespace CapaPresentacionTienda.Controllers
 {
+
+    [Authorize]
+
     public class TiendaController : Controller
     {
         // GET: Tienda
@@ -17,8 +20,6 @@ namespace CapaPresentacionTienda.Controllers
         {
             return View();
         }
-
-
 
 
         public ActionResult DetalleProducto(int idproducto = 0)
@@ -189,7 +190,7 @@ namespace CapaPresentacionTienda.Controllers
 
             string mensaje = String.Empty;
 
-            respuesta = new CN_Carrito().OperacionCarrito(idcliente, idproducto, true, out mensaje);
+            respuesta = new CN_Carrito().OperacionCarrito(idcliente, idproducto, sumar, out mensaje);
 
 
 

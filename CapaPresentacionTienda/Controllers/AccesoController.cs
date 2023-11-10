@@ -9,6 +9,8 @@ using System.Web.Security;
 
 namespace CapaPresentacionTienda.Controllers
 {
+
+   
     public class AccesoController : Controller
     {
         // GET: Acceso
